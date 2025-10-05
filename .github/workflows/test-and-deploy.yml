@@ -35,7 +35,7 @@ jobs:
         
     - name: Run tests with pytest
       run: |
-        pytest   # ⚡ без --alluredir, т.к. это уже есть в pytest.ini
+        pytest tests/ -v -s --alluredir=allure-results
         
     - name: Generate Allure Report
       if: always()
