@@ -36,28 +36,28 @@ jobs:
     - name: Run tests with pytest
       run: pytest --alluredir=allure-results
         
-    - name: Generate Allure Report
-      if: always()
-      run: |
-        curl -o allure-2.13.9.tgz -Ls https://repo1.maven.org/maven2/io/qameta/allure/allure-commandline/2.13.9/allure-commandline-2.13.9.tgz
-        tar -zxf allure-2.13.9.tgz --directory=/tmp
-        sudo /tmp/allure-2.13.9/bin/allure --version
-        
-        /tmp/allure-2.13.9/bin/allure generate allure-results --clean -o allure-report
-        
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
+    - name: Generate Allure test report
+      uses: andgineer/allure-report@v3.6
+      id: allure-report
       if: always()
       with:
-        name: allure-results
-        path: allure-results/
+        allure-results: allure-results
+        website: gh-pages-dir
+        reports-site-path: builds/tests
         
-    - name: Upload allure report
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: allure-report
-        path: allure-report/
+    # - name: Upload test results
+    #   uses: actions/upload-artifact@v4
+    #   if: always()
+    #   with:
+    #     name: allure-results
+    #     path: allure-results/
+        
+    # - name: Upload allure report
+    #   uses: actions/upload-artifact@v4
+    #   if: always()
+    #   with:
+    #     name: allure-report
+    #     path: allure-report/
     
     - name: Publish Allure Report to GitHub Pages
       if: always()
