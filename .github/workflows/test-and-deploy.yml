@@ -72,20 +72,14 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
+    outputs:
+      report_url: ${{ steps.deployment.outputs.page_url }}
       
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Show Allure Report URL
-      run: echo "Allure Report is available at ${{ steps.deployment.outputs.page_url }}"
       
-    - name: Download allure results
-      uses: actions/download-artifact@v4
-      with:
-        name: allure-results
-        path: allure-results/
-        
     - name: Download allure report
       uses: actions/download-artifact@v4
       with:
@@ -104,26 +98,19 @@ jobs:
       id: deployment
       uses: actions/deploy-pages@v4
 
+    - name: Show Allure Report URL
+      run: echo "Allure Report is available at ${{ steps.deployment.outputs.page_url }}"
+
   test-results-comment:
-    needs: test
+    needs: [test, deploy]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download allure results
-      uses: actions/download-artifact@v4
+    - name: Add PR comment with Allure Report link
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
-        name: allure-results
-        path: allure-results/
-        
-    - name: Parse test results
-      id: test-results
-      run: |
-        if [ -f "allure-results/executor.json" ]; then
-          echo "status=completed" >> $GITHUB_OUTPUT
-        else
-          echo "status=failed" >> $GITHUB_OUTPUT
-        fi
+        header: allure-report
+        message: |
+          Tests finished.  
+          Allure Report: ${{ needs.deploy.outputs.report_url }}
