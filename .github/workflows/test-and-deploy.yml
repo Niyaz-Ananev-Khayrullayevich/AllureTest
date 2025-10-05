@@ -93,13 +93,13 @@ jobs:
       uses: actions/configure-pages@v4
       
     - name: Upload to Pages
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
       with:
         path: allure-report/
         
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
 
   test-results-comment:
     needs: test
@@ -124,21 +124,3 @@ jobs:
         else
           echo "status=failed" >> $GITHUB_OUTPUT
         fi
-        
-    # - name: Comment PR
-    #   if: github.event_name == 'pull_request'
-    #   uses: actions/github-script@v6
-    #   with:
-    #     script: |
-    #       github.rest.issues.createComment({
-    #         issue_number: context.issue.number,
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         body: `## 🧪 Test Results
-            
-    #         **Status**: ${{ steps.test-results.outputs.status }}
-            
-    #         Allure отчет будет доступен после деплоя на GitHub Pages.
-            
-    #         📊 [View Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})`
-    #       });
