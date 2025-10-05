@@ -34,8 +34,7 @@ jobs:
         pip install -r requirements.txt
         
     - name: Run tests with pytest
-      run: |
-        pytest tests/ -v -s --alluredir=allure-results
+      run: pytest --alluredir=allure-results
         
     - name: Generate Allure Report
       if: always()
@@ -126,20 +125,20 @@ jobs:
           echo "status=failed" >> $GITHUB_OUTPUT
         fi
         
-    - name: Comment PR
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v6
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `## 🧪 Test Results
+    # - name: Comment PR
+    #   if: github.event_name == 'pull_request'
+    #   uses: actions/github-script@v6
+    #   with:
+    #     script: |
+    #       github.rest.issues.createComment({
+    #         issue_number: context.issue.number,
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         body: `## 🧪 Test Results
             
-            **Status**: ${{ steps.test-results.outputs.status }}
+    #         **Status**: ${{ steps.test-results.outputs.status }}
             
-            Allure отчет будет доступен после деплоя на GitHub Pages.
+    #         Allure отчет будет доступен после деплоя на GitHub Pages.
             
-            📊 [View Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})`
-          });
+    #         📊 [View Allure Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})`
+    #       });
