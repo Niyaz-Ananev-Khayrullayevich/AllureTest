@@ -58,59 +58,67 @@ jobs:
       with:
         name: allure-report
         path: allure-report/
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-      
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
-    outputs:
-      report_url: ${{ steps.deployment.outputs.page_url }}
-      
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download allure report
-      uses: actions/download-artifact@v4
+    - name: Publish Allure Report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
       with:
-        name: allure-report
-        path: allure-report/
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-report
+
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+    
+  #   permissions:
+  #     contents: read
+  #     pages: write
+  #     id-token: write
+      
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+    
+  #   outputs:
+  #     report_url: ${{ steps.deployment.outputs.page_url }}
+      
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
+      
+  #   - name: Download allure report
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: allure-report
+  #       path: allure-report/
         
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
+  #   - name: Setup Pages
+  #     uses: actions/configure-pages@v4
       
-    - name: Upload to Pages
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: allure-report/
+  #   - name: Upload to Pages
+  #     uses: actions/upload-pages-artifact@v3
+  #     with:
+  #       path: allure-report/
         
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+  #   - name: Deploy to GitHub Pages
+  #     id: deployment
+  #     uses: actions/deploy-pages@v4
 
-    - name: Show Allure Report URL
-      run: echo "Allure Report is available at ${{ steps.deployment.outputs.page_url }}"
+  #   - name: Show Allure Report URL
+  #     run: echo "Allure Report is available at ${{ steps.deployment.outputs.page_url }}"
 
-  test-results-comment:
-    needs: [test, deploy]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+  # test-results-comment:
+  #   needs: [test, deploy]
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'pull_request'
     
-    steps:
-    - name: Add PR comment with Allure Report link
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        header: allure-report
-        message: |
-          Tests finished.  
-          Allure Report: ${{ needs.deploy.outputs.report_url }}
+  #   steps:
+  #   - name: Add PR comment with Allure Report link
+  #     uses: marocchino/sticky-pull-request-comment@v2
+  #     with:
+  #       header: allure-report
+  #       message: |
+  #         Tests finished.  
+  #         Allure Report: ${{ needs.deploy.outputs.report_url }}
