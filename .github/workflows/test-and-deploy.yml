@@ -35,7 +35,7 @@ jobs:
         
     - name: Run tests with pytest
       run: |
-        pytest tests/ --tb=short -v
+        pytest tests/
         
     - name: Generate Allure Report
       if: always()
