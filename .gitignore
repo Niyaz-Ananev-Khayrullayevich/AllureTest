@@ -1,0 +1,17 @@
+# Allure results
+allure-results/
+
+# Allure report
+allure-report/
+
+# Other common build/IDE artifacts (optional, depending on your project)
+.idea/
+.vscode/
+target/
+build/
+*.log
+*.pyc
+*.DS_Store
+__pycache__/
+allure-report/
+allure-results/
