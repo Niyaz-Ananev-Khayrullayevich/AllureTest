@@ -13,5 +13,3 @@ build/
 *.pyc
 *.DS_Store
 __pycache__/
-allure-report/
-allure-results/

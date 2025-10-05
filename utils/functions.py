@@ -1,5 +1,6 @@
 import allure
 
+
 def attach_regress(response):
     """Прикрепляет данные запроса к Allure-отчету."""
     request = response.request

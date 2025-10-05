@@ -3,6 +3,7 @@ from utils.main_page.api import get_active_items, get_cart, add_to_cart
 import allure
 from utils.functions import attach_regress
 
+
 @allure.parent_suite('Главная страница')
 @allure.suite('Проверка добавления товара в Корзину у незарегистрированного пользователя')
 @allure.title("Получение товаров")
