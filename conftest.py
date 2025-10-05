@@ -24,7 +24,8 @@ def configure_allure():
     ]
     
     # Создаем директорию для результатов Allure если её нет
-    os.makedirs("allure-results", exist_ok=True)
+    if not os.path.exists("allure-results"):
+        os.makedirs("allure-results")
     
     # Записываем конфигурацию категорий
     import json
