@@ -33,12 +33,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install Allure CLI
+      run: npm install -g allure-commandline --save-dev
+
     - name: Run tests with pytest
       run: pytest --alluredir=allure-results
-      
+
     - name: Generate Allure report
-      run: |
-        allure generate allure-results -o allure-report --clean
+      run: allure generate allure-results -o allure-report --clean
 
     - name: Upload allure results
       uses: actions/upload-artifact@v4
