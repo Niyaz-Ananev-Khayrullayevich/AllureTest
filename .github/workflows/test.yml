@@ -1,4 +1,4 @@
-name: Test and Deploy Allure Reports
+name: Run Tests and Generate Allure Report
 
 on:
   push:
@@ -41,3 +41,9 @@ jobs:
       with:
         name: allure-results
         path: allure-results/
+    
+    - name: Upload allure report
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report/
