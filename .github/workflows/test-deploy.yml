@@ -1,4 +1,4 @@
-name: Run Tests, Generate Allure Report and deploy Allure Report to GitHub Pages
+name: Run Tests, Generate Allure Report, and Deploy to GitHub Pages
 
 on:
   push:
