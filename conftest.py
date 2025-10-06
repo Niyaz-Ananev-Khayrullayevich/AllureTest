@@ -27,6 +27,10 @@ def configure_allure():
     if not os.path.exists("allure-results"):
         os.makedirs("allure-results")
     
+    # Создаём директорию для репортов Allure если её нет
+    if not os.path.exists("allure-reports"):
+        os.makedirs("allure-reports")
+    
     # Записываем конфигурацию категорий
     import json
     with open("allure-results/categories.json", "w") as f:
