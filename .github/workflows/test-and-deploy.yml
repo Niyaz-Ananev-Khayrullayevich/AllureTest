@@ -39,7 +39,6 @@ jobs:
     - name: Generate Allure test report
       uses: andgineer/allure-report@v3.6
       id: allure-report
-      if: always()
       with:
         allure-results: allure-results
         website: gh-pages-dir
@@ -47,7 +46,6 @@ jobs:
 
     - name: Load test report history
       uses: actions/checkout@v3
-      if: always()
       continue-on-error: true
       with:
         ref: gh-pages
@@ -55,7 +53,6 @@ jobs:
 
     - name: Build test report
       uses: simple-elf/allure-report-action@v1.7
-      if: always()
       with:
         gh_pages: gh-pages
         allure_history: allure-history
@@ -63,7 +60,6 @@ jobs:
 
     - name: Publish test report
       uses: peaceiris/actions-gh-pages@v3
-      if: always()
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages 
