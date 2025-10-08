@@ -36,6 +36,7 @@ def configure_allure():
     with open("allure-results/categories.json", "w") as f:
         json.dump(categories, f, indent=2)
 
+
 @pytest.fixture(scope="session")
 def allure_results_dir():
     """Возвращает путь к директории с результатами Allure."""
