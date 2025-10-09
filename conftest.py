@@ -21,7 +21,7 @@ def configure_allure():
             "name": "Skipped tests",
             "matchedStatuses": ["skipped"]
         }
-    ]
+    ] 
     
     # Создаем директорию для результатов Allure если её нет
     if not os.path.exists("allure-results"):
