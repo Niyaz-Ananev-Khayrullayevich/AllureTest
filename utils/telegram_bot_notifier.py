@@ -1,6 +1,7 @@
 import requests
 from tests.test_configs import telegram_bot_token, chat_id
 
+
 def send_telegram_message(message: str):
     """Отправка форматированного сообщения в Telegram."""
     if not telegram_bot_token or not chat_id:
