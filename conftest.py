@@ -1,6 +1,8 @@
 import pytest
 import os
 
+from utils.telegram_bot_notifier import send_telegram_message
+
 
 @pytest.fixture(scope="session", autouse=True)
 def configure_allure():
@@ -21,7 +23,7 @@ def configure_allure():
             "name": "Skipped tests",
             "matchedStatuses": ["skipped"]
         }
-    ] 
+    ]
     
     # Создаем директорию для результатов Allure если её нет
     if not os.path.exists("allure-results"):
@@ -41,3 +43,23 @@ def configure_allure():
 def allure_results_dir():
     """Возвращает путь к директории с результатами Allure."""
     return "allure-results"
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """
+    Хук pytest — вызывается после завершения всех тестов.
+    Здесь собираем статистику и шлём уведомление в Telegram.
+    """
+    summary = parse_allure_results("allure-results")
+
+    message = (
+        f"*Результаты автотестов*\n\n"
+        f"Успешно: {summary['passed']}\n"
+        f"Провалено: {summary['failed']}\n"
+        f"Сломано: {summary['broken']}\n"
+        f"Пропущено: {summary['skipped']}\n"
+        f"Всего: {summary['total']}\n\n"
+        f"[Открыть Allure отчёт]({summary['report_url']})"
+    )
+
+    send_telegram_message(message)
