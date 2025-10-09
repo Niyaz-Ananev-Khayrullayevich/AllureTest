@@ -1,6 +1,7 @@
 import pytest
 import os
 
+from utils.allure_utils import parse_allure_results
 from utils.telegram_bot_notifier import send_telegram_message
 
 
